@@ -7,6 +7,10 @@ output "Username" {
   value = "admin"
 }
 
+output "vpc_id"
+  value = aws_vpc.fgtvm-vpc.id
+}
+
 output "password2" {
 value = aws_instance.fgtvm.id
 }

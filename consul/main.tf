@@ -31,17 +31,21 @@ data "aws_ami" "ubuntu" {
 # }
 
 
+
 resource "aws_instance" "consul" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.medium"
-  subnet_id              = aws_subnet.privatesubnetaz1.id
-  vpc_security_group_ids = [aws_security_group.consul.id]
+  subnet_id              = aws_subnet.publicsubnetaz1.id
+  vpc_security_group_ids = [aws_security_group.consul_allow.id]
   user_data              = file("./scripts/consul.sh")
   key_name               = aws_key_pair.consulsshkey.key_name
+  associate_public_ip_address = true
   tags = {
-    Name = "${var.prefix}-consul"
+    Name = "nia-consul"
     Env  = "consul"
   }
 }
+
+
 
 
