@@ -1,13 +1,13 @@
 variable "region" {
   default = "us-east-1"
-    type        = string
+  type    = string
 
 }
 
 // Availability zones for the region
 variable "availability_zone" {
   default = "us-east-1a"
-    type        = string
+  type    = string
 
 }
 

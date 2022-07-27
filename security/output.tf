@@ -7,7 +7,7 @@ output "Username" {
   value = "admin"
 }
 
-output "vpc_id"
+output "myvpc_id" {
   value = aws_vpc.fgtvm-vpc.id
 }
 
