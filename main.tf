@@ -14,3 +14,8 @@ module "consul" {
   public_subnet     = module.security.publicsubnetaz1.id
 }
 
+module "app" {
+  source  = "./app"
+  region  = var.region
+
+}
