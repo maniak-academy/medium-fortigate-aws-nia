@@ -14,3 +14,9 @@ variable "availability_zone" {
 variable "adminsport" {
   default = "8443"
 }
+variable "lb_ingress_ip" {
+  
+}
+variable "consul_version" {
+  
+}

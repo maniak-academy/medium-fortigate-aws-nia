@@ -6,16 +6,19 @@ module "security" {
 
 }
 
-module "consul" {
-  source            = "./consul"
-  region            = var.region
-  vpc_id            = module.security.myvpc_ip.id
-  availability_zone = var.availability_zone
-  public_subnet     = module.security.publicsubnetaz1.id
+
+module "infra" {
+  source = "./infra"
+  region = var.region
+  consul_version = var.consul_version
+  lb_ingress_ip = var.lb_ingress_ip
+  public_subnet_id = module.security.public_subnet_id
+  vpc_id = module.security.vpc_id
+  fortigate_password = module.security.Password
+  fortigate_public_ip = module.security.fw_public_ip
+  depends_on = [
+    module.security
+  ]
 }
 
-module "app" {
-  source  = "./app"
-  region  = var.region
-
-}
+  
