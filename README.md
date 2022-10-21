@@ -1,6 +1,9 @@
 # Fortinet With Consul Network Infrastructure Automation
 The follow code/demo provides a highlevel overview on how you can automatically configure address groups on fortinet firewall.
 
+![title](./images/overview.png)
+
+
 ## How Does it Work?
 CTS is a lightweight service that watches for changes in Consul. 
 
@@ -25,7 +28,7 @@ As services go up and down, CTS will automatically update the Address groups on 
 ## Let's Deploy
 Lets deploy this in your environment
 
-### Prequists 
+### Prerequisite  
 * Docker install [Optional]. Note: I use docker because Apple M1 /Terraform doesnt support the template provider
 * AWS Installed
 * export AWS_ACCESS_KEY_ID=<ID>
@@ -118,15 +121,11 @@ terraform apply -target=module.infra
 docker-compose -f docker-compose.yaml run --rm terraform apply -target=module.infra 
 ``` 
 
+## Step 5
+Log into consul and validate all the services are working 
 
 
 
-
-terraform apply -target=module.security 
-
-Next we will need to generate an API token so Consul Terraform Sync can make changes automatically 
-
-run the following command to get the password 
 
 ```
 docker-compose -f docker-compose.yaml run --rm terraform output -json | jq 

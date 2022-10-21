@@ -51,23 +51,6 @@ sudo useradd --system --home /etc/consul.d --shell /bin/false consul
 sudo mkdir --parents /opt/consul
 sudo chown --recursive consul:consul /opt/consul
 
-# #Create Systemd Config for Consul Terraform Sync
-sudo cat << EOF > /etc/systemd/system/consul-tf-sync.service
-[Unit]
-Description="HashiCorp Consul Terraform Sync - A Network Infra Automation solution"
-Documentation=https://www.consul.io/
-Requires=network-online.target
-After=network-online.target
-[Service]
-User=root
-Group=root
-ExecStart=/usr/bin/consul-terraform-sync start -config-file=/etc/consul-tf-sync.d/consul-tf-sync-secure.hcl
-KillMode=process
-Restart=always
-LimitNOFILE=65536
-[Install]
-WantedBy=multi-user.target
-EOF
 
 #Create Systemd Config
 sudo cat << EOF > /etc/systemd/system/consul.service
@@ -88,6 +71,26 @@ LimitNOFILE=65536
 [Install]
 WantedBy=multi-user.target
 EOF
+
+
+# #Create Systemd Config for Consul Terraform Sync
+sudo cat << EOF > /etc/systemd/system/consul-tf-sync.service
+[Unit]
+Description="HashiCorp Consul Terraform Sync - A Network Infra Automation solution"
+Documentation=https://www.consul.io/
+Requires=network-online.target
+After=network-online.target
+[Service]
+User=root
+Group=root
+ExecStart=/usr/bin/consul-terraform-sync start -config-file=/etc/consul-tf-sync.d/consul-tf-sync-secure.hcl
+KillMode=process
+Restart=always
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+EOF
+
 
 #Create config dir
 sudo mkdir --parents /etc/consul.d
@@ -171,7 +174,7 @@ buffer_period {
 }
 id = "consul-terraform-sync"
 consul {
-    address = "localhost:8500"
+  address = "localhost:8500"
 	token = "${consul_acl_token}"
     service_registration {
       enabled = true
@@ -190,12 +193,13 @@ driver "terraform" {
   required_providers {
     fortios = {
       source = "fortinetdev/fortios"
+      version = "1.16.0"
     }
   }
 }
 
 
-terraform_provider "fortinet" {
+terraform_provider "fortios" {
     hostname     = "${fortigate_public_ip}:8443"
     insecure     = "true"
     token         = "${fortigate_token}"
@@ -203,11 +207,11 @@ terraform_provider "fortinet" {
 
 ## Consul Terraform Sync Task Definitions
 task {
-  name = "fortinet"
+  name = "CTS"
   description = "Automate population of dynamic address group"
-  module = "github.com/fortinetdev/terraform-fortios-cts-agu"
+  module = "github.com/maniak-academy/terraform-fortios-cts-nia"
   providers = ["fortios"]
-  condition "services"
+  condition "services" {
     names = ["web", "api"]
   }  
   variable_files = ["/opt/consul-tf-sync.d/fortinet.tfvars"]
