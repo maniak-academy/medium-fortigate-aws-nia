@@ -29,3 +29,7 @@ output "private_subnet_id" {
 output "vpc_id" {
   value = aws_vpc.fgtvm-vpc.id
 }
+
+output "fortigate_ssh_key" {
+  value = "${aws_key_pair.sshkey.key_name}.pem"
+}
