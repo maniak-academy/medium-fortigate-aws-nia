@@ -13,7 +13,7 @@ locals {
     consul_ca_cert    = "${tls_self_signed_cert.ca.cert_pem}"
     consul_ca_key     = "${tls_private_key.ca.private_key_pem}"
     consul_version    = "${var.consul_version}"
-    fortigate_password = "${var.fortigate_password}"
+    fortigate_token = "${var.fortigate_token}"
     fortigate_public_ip = "${var.fortigate_public_ip}"
   })
 }

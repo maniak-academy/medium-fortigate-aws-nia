@@ -12,6 +12,7 @@ locals {
 }
 
 resource "aws_instance" "web" {
+  count = 2
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.micro"
   subnet_id              = var.public_subnet_id

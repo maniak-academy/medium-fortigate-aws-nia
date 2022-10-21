@@ -79,7 +79,7 @@ variable "vpc_id" {
 variable "public_subnet_id" {
   
 }
-variable "fortigate_password" {
+variable "fortigate_token" {
   
 }
 variable "fortigate_public_ip" {

@@ -7,7 +7,7 @@ output "fortigate_username" {
 }
 
 output "fortigate_password" {
-  value     = module.security.password2
+  value     = module.security.Password
   sensitive = true
 }
 
@@ -19,3 +19,6 @@ output "consul_bootstrap_token" {
   value = module.infra.acl_bootstrap_token
 }
 
+# output "ssh-foritgate-firewall" {
+#   value = "ssh -i ${module.security.key_name}.pem admin@${module.security.fw_public_ip}"
+# }

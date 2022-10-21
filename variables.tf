@@ -20,3 +20,6 @@ variable "lb_ingress_ip" {
 variable "consul_version" {
   
 }
+variable "fortigate_token" {
+  
+}

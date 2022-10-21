@@ -188,25 +188,41 @@ driver "terraform" {
   log = true
   path = "/opt/consul-tf-sync.d/"
   required_providers {
-    fortimanager = {
-      source = "fortinetdev/fortimanager"
+    fortios = {
+      source = "fortinetdev/fortios"
     }
   }
 }
 
 
-terraform_provider "fortimanager" {
+terraform_provider "fortinet" {
     hostname     = "${fortigate_public_ip}:8443"
     insecure     = "true"
-    username     = "admin"
-    password     = "${fortigate_password}"
+    token         = "${fortigate_token}"
 }
 
+## Consul Terraform Sync Task Definitions
+task {
+  name = "fortinet"
+  description = "Automate population of dynamic address group"
+  module = "github.com/fortinetdev/terraform-fortios-cts-agu"
+  providers = ["fortios"]
+  condition "services"
+    names = ["web", "api"]
+  }  
+  variable_files = ["/opt/consul-tf-sync.d/fortinet.tfvars"]
+}
 
 EOF
 
 
 
+cat << EOF > /opt/consul-tf-sync.d/fortinet.tfvars
+addrgrp_name_map = {
+  "cts-web" : ["web"],
+  "cts-api" : ["api"]
+}
+EOF
 
 #Enable the service
 sudo systemctl enable consul
@@ -215,5 +231,4 @@ sudo service consul status
 
 sudo systemctl enable consul-tf-sync
 sudo service consul-tf-sync start
-
 sudo service consul-tf-sync status
