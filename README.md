@@ -146,3 +146,8 @@ Output example...
   }
 }
 ```
+
+
+
+## Clean up
+run docker-compose -f docker-compose.yaml run --rm terraform destroy 

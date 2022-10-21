@@ -193,7 +193,6 @@ driver "terraform" {
   required_providers {
     fortios = {
       source = "fortinetdev/fortios"
-      version = "1.16.0"
     }
   }
 }
@@ -207,7 +206,7 @@ terraform_provider "fortios" {
 
 ## Consul Terraform Sync Task Definitions
 task {
-  name = "CTS"
+  name = "cts-tasks"
   description = "Automate population of dynamic address group"
   module = "github.com/maniak-academy/terraform-fortios-cts-nia"
   providers = ["fortios"]
@@ -222,6 +221,7 @@ EOF
 
 
 cat << EOF > /opt/consul-tf-sync.d/fortinet.tfvars
+addrname_prefix = "cts-"
 addrgrp_name_map = {
   "cts-web" : ["web"],
   "cts-api" : ["api"]
