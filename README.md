@@ -122,9 +122,9 @@ docker-compose -f docker-compose.yaml run --rm terraform apply -target=module.in
 ``` 
 
 ## Step 5
-Log into consul and validate all the services are working 
+Once all the services have been deployed and registered to Consul. Log into the Consul and the FW to validate all the chagnes have been made.
 
-
+So get the password for the firewall exectute this command 
 
 
 ```
@@ -146,33 +146,3 @@ Output example...
   }
 }
 ```
-
-ssh into the forinet device 
-
-
-Copy the Value and execute the deployment of the apps
-
-docker-compose -f docker-compose.yaml run --rm terraform apply -auto-approve -target=module.infra 
-
-terraform will ask you to input the fortigate token, so paste it in.
-
-```
-var.fortigate_token
-  Enter a value:!xYp_fcOp44JekREgLV87P
-```
-
-
-
-
-
-NOTE on mac m1 users
-if you get this error, you can use docker to deploy the configuration
-
-│ Provider registry.terraform.io/hashicorp/template v2.2.0 does not have a package available for your current platform, darwin_arm64.
-First, make sure that you have docker installed on your machine.. than you can execute the following command.
-
-docker-compose -f docker-compose.yaml run --rm terraform init
-
-docker-compose -f docker-compose.yaml run --rm terraform plan
-
-docker-compose -f docker-compose.yaml run --rm terraform apply
